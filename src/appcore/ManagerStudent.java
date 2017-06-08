@@ -3,6 +3,7 @@ package appcore;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * CRUD OPERATIONS
@@ -36,14 +37,19 @@ public class ManagerStudent {
     }
 
     public List<Student> filter(String name){
-        return null;
+        List<Student> filteredStud = students.stream().filter(student ->  student.getName().equals(name)).collect(Collectors.toList());
+        return filteredStud;
     }
 
     public List<Student> filter(Date dateOfBirth){
+
         return null;
     }
 
     public List<Student> filter(Long groupId){
+        for (Student stud : students) {
+
+        }
         return null;
     }
 
