@@ -1,4 +1,6 @@
-package appcore;
+package com.innopolis;
+
+import appcore.Student;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -34,6 +36,5 @@ public class StudentSerialization {
         List<Student> deserialized = studentSerialization.deserialize("students.out");
         System.out.println(deserialized.get(0).getName());
         System.out.println(deserialized.get(1).getName());
-
     }
 }
