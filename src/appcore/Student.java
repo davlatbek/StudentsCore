@@ -1,7 +1,6 @@
 package appcore;
 
-import java.io.*;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -14,10 +13,10 @@ public class Student implements Serializable {
     private String surname;
     private String middleName;
     private Date dateOfBirth;
-    private Long id;
+    private final Long id;
     private Long groupID;
-    private List<Contact> contacts;
-    Random random;
+    private  List<Contact> contacts;
+    private transient Random random = new Random();
 
     public Student(String name, String surname, String middleName, Date dateOfBirth, Long groupID, List<Contact> contacts) {
         random = new Random();
@@ -27,7 +26,7 @@ public class Student implements Serializable {
         this.dateOfBirth = dateOfBirth;
         this.groupID = groupID;
         this.id = System.currentTimeMillis() + random.nextInt();
-        this.contacts = new ArrayList<>();
+        this.contacts = contacts;
     }
 
     public Student(String name, String surname, String middleName, Date dateOfBirth, Long groupID) {

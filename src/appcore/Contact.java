@@ -8,8 +8,12 @@ public class Contact {
     private String value;
 
     public ContactType getType() {
-
         return type;
+    }
+
+    public Contact(ContactType type, String value) {
+        this.type = type;
+        this.value = value;
     }
 
     public void setType(ContactType type) {
