@@ -1,4 +1,4 @@
-package com.innopolis;
+package examples;
 
 import appcore.Student;
 
