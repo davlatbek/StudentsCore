@@ -1,6 +1,9 @@
 package utilities;
 
-import appcore.*;
+import entities.Group;
+import entities.Lesson;
+import entities.Semester;
+import entities.Student;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -9,6 +12,7 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +36,13 @@ public class Serializer {
         out.writeStartDocument();
         out.writeCharacters("\n");
         out.writeStartElement("objects");
+        parseObjects(objects);
+        out.writeEndElement();
+        out.writeEndDocument();
+        out.close();
+    }
+
+    private void parseObjects(List<Object> objects) throws XMLStreamException, IllegalAccessException {
         for (Object object : objects){
             out.writeCharacters("\n\t");
             out.writeStartElement("object");
@@ -42,9 +53,6 @@ public class Serializer {
             out.writeEndElement();
             out.writeCharacters("\n");
         }
-        out.writeEndElement();
-        out.writeEndDocument();
-        out.close();
     }
 
     private void writeMethods(Object object) throws XMLStreamException {
@@ -53,11 +61,10 @@ public class Serializer {
             out.writeStartElement("method");
             out.writeAttribute("returntype", method.getReturnType().toString());
             out.writeAttribute("name", method.getName());
-
-            for (Class<?> parameter : method.getParameterTypes()){
+            for (Parameter parameter : method.getParameters()){
                 out.writeCharacters("\n\t\t\t");
                 out.writeStartElement("args");
-                out.writeAttribute("type", parameter.getTypeName().toString());
+                out.writeAttribute("type", parameter.getName());
                 out.writeAttribute("name", parameter.getName());
                 out.writeEndElement();
             }
@@ -70,8 +77,9 @@ public class Serializer {
         for (Field field : object.getClass().getDeclaredFields()){
             if (Modifier.isTransient(field.getModifiers())) continue;
             field.setAccessible(true);
-            Class<?> c = field.getType();
-
+//            if (field.get(object).getClass().getSimpleName().equals("Group")){
+//                Group group = ((Class)((ParameterizedType)field.getGenericType()));
+//            }
             out.writeCharacters("\n\t\t");
             out.writeStartElement("field");
             out.writeAttribute("type", field.getType().toString());
