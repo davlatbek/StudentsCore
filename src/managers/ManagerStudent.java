@@ -1,4 +1,6 @@
-package appcore;
+package managers;
+
+import entities.Student;
 
 import java.util.ArrayList;
 import java.util.Date;
