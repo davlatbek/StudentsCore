@@ -1,12 +1,13 @@
-package appcore;
+package entities;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Created by davlet on 6/8/17.
  */
-public class AttendanceJournal {
+public class Journal extends Entity implements Serializable{
     private Lesson lesson;
     private Long groupId;
     private List<Map<Student, Boolean>> attendance;

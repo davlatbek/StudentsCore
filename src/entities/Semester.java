@@ -1,4 +1,4 @@
-package appcore;
+package entities;
 
 /**
  * Created by davlet on 6/8/17.

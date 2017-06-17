@@ -1,17 +1,27 @@
-package appcore;
+package entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by davlet on 6/8/17.
  */
-public class Lesson {
+public class Lesson extends Entity implements Serializable {
     private String name;
     private Date startTime;
     private Date endTime;
     private String subject;
     private String description;
     private String lector;
+
+    public Lesson(String name, Date startTime, Date endTime, String subject, String description, String lector) {
+        this.name = name;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.subject = subject;
+        this.description = description;
+        this.lector = lector;
+    }
 
     public String getName() {
         return name;

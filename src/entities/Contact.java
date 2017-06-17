@@ -1,9 +1,11 @@
-package appcore;
+package entities;
+
+import java.io.Serializable;
 
 /**
  * Created by davlet on 6/8/17.
  */
-public class Contact {
+public class Contact extends Entity implements Serializable{
     private ContactType type;
     private String value;
 

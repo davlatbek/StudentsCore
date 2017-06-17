@@ -1,4 +1,4 @@
-package appcore;
+package entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -8,14 +8,15 @@ import java.util.Random;
 /**
  * Created by davlet on 6/8/17.
  */
-public class Student implements Serializable {
+public class Student extends Entity implements Serializable {
     private String name;
     private String surname;
     private String middleName;
     private Date dateOfBirth;
     private final Long id;
     private Long groupID;
-    private  List<Contact> contacts;
+    private Group group;
+    private transient List<Contact> contacts;
     private transient Random random = new Random();
 
     public Student(String name, String surname, String middleName, Date dateOfBirth, Long groupID, List<Contact> contacts) {
@@ -29,7 +30,7 @@ public class Student implements Serializable {
         this.contacts = contacts;
     }
 
-    public Student(String name, String surname, String middleName, Date dateOfBirth, Long groupID) {
+    public Student(String name, String surname, String middleName, Date dateOfBirth, Long groupID, Group group) {
         random = new Random();
         this.name = name;
         this.surname = surname;
@@ -37,8 +38,8 @@ public class Student implements Serializable {
         this.dateOfBirth = dateOfBirth;
         this.groupID = groupID;
         this.id = System.currentTimeMillis() + random.nextInt();
+        this.group = group;
     }
-
 
     public String getName() {
         return name;
