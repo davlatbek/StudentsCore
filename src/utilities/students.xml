@@ -1,0 +1,106 @@
+<?xml version="1.0" ?>
+<objects>
+	<object type="Student">
+		<field type="class java.lang.String" name="name" value="Mark"></field>
+		<field type="class java.lang.String" name="surname" value="Brown"></field>
+		<field type="class java.lang.String" name="middleName" value="Kidman"></field>
+		<field type="class java.util.Date" name="dateOfBirth" value="Thu Feb 01 00:00:00 MSK 3894"></field>
+		<field type="class java.lang.Long" name="id" value="1498372751362"></field>
+		<field type="class java.lang.Long" name="groupID" value="6"></field>
+		<Group>
+			<field type="class java.lang.Long" name="groupNumber" value="6"></field>
+			<field type="class java.lang.Integer" name="courseNumber" value="1"></field>
+			<method returntype="class java.lang.Integer" name="getCourseNumber">
+			</method>
+			<method returntype="class java.lang.Long" name="getGroupNumber">
+			</method>
+			<method returntype="void" name="setCourseNumber">
+				<args type="arg0" name="arg0"></args>
+			</method>
+			<method returntype="class entities.Semester" name="getSemester">
+			</method>
+			<method returntype="void" name="setSemester">
+				<args type="arg0" name="arg0"></args>
+			</method>
+			<method returntype="void" name="setGroupNumber">
+				<args type="arg0" name="arg0"></args>
+			</method>
+			<method returntype="interface java.util.List" name="getStudentList">
+			</method>
+			<method returntype="void" name="setStudentList">
+				<args type="arg0" name="arg0"></args>
+			</method>
+		</Group>
+		<method returntype="boolean" name="equals">
+			<args type="arg0" name="arg0"></args>
+		</method>
+		<method returntype="int" name="hashCode">
+		</method>
+		<method returntype="class java.lang.String" name="getName">
+		</method>
+		<method returntype="void" name="setName">
+			<args type="arg0" name="arg0"></args>
+		</method>
+		<method returntype="class java.lang.Long" name="getId">
+		</method>
+		<method returntype="class java.lang.String" name="getSurname">
+		</method>
+		<method returntype="void" name="setSurname">
+			<args type="arg0" name="arg0"></args>
+		</method>
+		<method returntype="class java.lang.String" name="getMiddleName">
+		</method>
+		<method returntype="void" name="setMiddleName">
+			<args type="arg0" name="arg0"></args>
+		</method>
+		<method returntype="class java.util.Date" name="getDateOfBirth">
+		</method>
+		<method returntype="void" name="setDateOfBirth">
+			<args type="arg0" name="arg0"></args>
+		</method>
+		<method returntype="class java.lang.Long" name="getGroupID">
+		</method>
+		<method returntype="void" name="setGroupID">
+			<args type="arg0" name="arg0"></args>
+		</method>
+	</object>
+
+	<object type="Student">
+		<field type="class java.lang.String" name="name" value="android course"></field>
+		<field type="class java.util.Date" name="startTime" value="Fri Jan 02 13:17:36 MSK 1970"></field>
+		<field type="class java.util.Date" name="endTime" value="Thu Jan 15 09:56:07 MSK 1970"></field>
+		<field type="class java.lang.String" name="subject" value="subject"></field>
+		<field type="class java.lang.String" name="description" value="desc"></field>
+		<field type="class java.lang.String" name="lector" value="A. Pervushov"></field>
+		<method returntype="class java.lang.String" name="getName">
+		</method>
+		<method returntype="void" name="setName">
+			<args type="arg0" name="arg0"></args>
+		</method>
+		<method returntype="class java.util.Date" name="getStartTime">
+		</method>
+		<method returntype="void" name="setStartTime">
+			<args type="arg0" name="arg0"></args>
+		</method>
+		<method returntype="class java.util.Date" name="getEndTime">
+		</method>
+		<method returntype="void" name="setEndTime">
+			<args type="arg0" name="arg0"></args>
+		</method>
+		<method returntype="class java.lang.String" name="getSubject">
+		</method>
+		<method returntype="void" name="setSubject">
+			<args type="arg0" name="arg0"></args>
+		</method>
+		<method returntype="class java.lang.String" name="getDescription">
+		</method>
+		<method returntype="void" name="setDescription">
+			<args type="arg0" name="arg0"></args>
+		</method>
+		<method returntype="class java.lang.String" name="getLector">
+		</method>
+		<method returntype="void" name="setLector">
+			<args type="arg0" name="arg0"></args>
+		</method>
+	</object>
+</objects>

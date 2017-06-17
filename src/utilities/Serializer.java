@@ -1,9 +1,6 @@
 package utilities;
 
-import entities.Group;
-import entities.Lesson;
-import entities.Semester;
-import entities.Student;
+import entities.*;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -32,68 +29,115 @@ public class Serializer {
                 new OutputStreamWriter(outputStream, "utf-8"));
     }
 
-    private void serialize(List<Object> objects) throws UnsupportedEncodingException, XMLStreamException, FileNotFoundException, IllegalAccessException, NoSuchFieldException {
-        out.writeStartDocument();
-        out.writeCharacters("\n");
-        out.writeStartElement("objects");
-        parseObjects(objects);
-        out.writeEndElement();
-        out.writeEndDocument();
-        out.close();
+    private void serialize(List<Object> objects) throws UnsupportedEncodingException, FileNotFoundException, IllegalAccessException, NoSuchFieldException {
+        try {
+            out.writeStartDocument();
+            out.writeCharacters("\n");
+            out.writeStartElement("objects");
+            parseObjects(objects, 1);
+            out.writeEndElement();
+            out.writeEndDocument();
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                out.close();
+                System.out.println("Finished serializing!");
+            } catch (XMLStreamException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    private void parseObjects(List<Object> objects) throws XMLStreamException, IllegalAccessException {
-        for (Object object : objects){
-            out.writeCharacters("\n\t");
+    private void parseObjects(List<Object> objects, int offset) throws XMLStreamException, IllegalAccessException {
+        StringBuilder stringBuilder = new StringBuilder("\n");
+        if (offset != 0) {
+            for (int i = 0; i < offset; i++) {
+                stringBuilder.append("\t");
+            }
+        }
+        for (Object object : objects) {
+            out.writeCharacters(stringBuilder.toString());
             out.writeStartElement("object");
             out.writeAttribute("type", objects.get(0).getClass().getSimpleName());
-            writeFields(object);
-            writeMethods(object);
-            out.writeCharacters("\n\t");
+            writeFields(object, 2);
+            writeMethods(object, 2);
+            out.writeCharacters(stringBuilder.toString());
             out.writeEndElement();
             out.writeCharacters("\n");
         }
     }
 
-    private void writeMethods(Object object) throws XMLStreamException {
-        for (Method method : object.getClass().getDeclaredMethods()){
-            out.writeCharacters("\n\t\t");
+    private void writeFields(Object object, int offset) throws XMLStreamException, IllegalAccessException {
+        StringBuilder stringBuilder = new StringBuilder("\n");
+        for (int i = 0; i < offset; i++) {
+            stringBuilder.append("\t");
+        }
+        for (Field field : object.getClass().getDeclaredFields()) {
+            if (Modifier.isTransient(field.getModifiers()))
+                continue;
+            field.setAccessible(true);
+            if (field.get(object).getClass().getSuperclass().equals(Entity.class)) {
+                parseObject((Entity) field.get(object), offset);
+            } else {
+                out.writeCharacters(stringBuilder.toString());
+                out.writeStartElement("field");
+                out.writeAttribute("type", field.getType().toString());
+                out.writeAttribute("name", field.getName());
+                out.writeAttribute("value", field.get(object).toString());
+                out.writeEndElement();
+            }
+        }
+    }
+
+    private void writeMethods(Object object, int offset) throws XMLStreamException {
+        StringBuilder stringBuilder = new StringBuilder("\n");
+        for (int i = 0; i < offset; i++) {
+            stringBuilder.append("\t");
+        }
+        for (Method method : object.getClass().getDeclaredMethods()) {
+            out.writeCharacters(stringBuilder.toString());
             out.writeStartElement("method");
             out.writeAttribute("returntype", method.getReturnType().toString());
             out.writeAttribute("name", method.getName());
-            for (Parameter parameter : method.getParameters()){
-                out.writeCharacters("\n\t\t\t");
-                out.writeStartElement("args");
-                out.writeAttribute("type", parameter.getName());
-                out.writeAttribute("name", parameter.getName());
-                out.writeEndElement();
-            }
-            out.writeCharacters("\n\t\t");
+            writeParameters(method, offset + 1);
+            out.writeCharacters(stringBuilder.toString());
             out.writeEndElement();
         }
     }
 
-    private void writeFields(Object object) throws XMLStreamException, IllegalAccessException {
-        for (Field field : object.getClass().getDeclaredFields()){
-            if (Modifier.isTransient(field.getModifiers())) continue;
-            field.setAccessible(true);
-//            if (field.get(object).getClass().getSimpleName().equals("Group")){
-//                Group group = ((Class)((ParameterizedType)field.getGenericType()));
-//            }
-            out.writeCharacters("\n\t\t");
-            out.writeStartElement("field");
-            out.writeAttribute("type", field.getType().toString());
-            String s = field.get(object).toString();
-            out.writeAttribute("name", field.getName());
-            out.writeAttribute("value", s);
-            System.out.println(field.get(object).toString());
+    private void writeParameters(Method method, int offset) throws XMLStreamException {
+        StringBuilder stringBuilder = new StringBuilder("\n");
+        for (int i = 0; i < offset; i++) {
+            stringBuilder.append("\t");
+        }
+        for (Parameter parameter : method.getParameters()) {
+            out.writeCharacters(stringBuilder.toString());
+            out.writeStartElement("args");
+            out.writeAttribute("type", parameter.getName());
+            out.writeAttribute("name", parameter.getName());
             out.writeEndElement();
         }
+    }
+
+    private void parseObject(Entity entity, int offset) throws XMLStreamException, IllegalAccessException {
+        StringBuilder stringBuilder = new StringBuilder("\n");
+        for (int i = 0; i < offset; i++) {
+            stringBuilder.append("\t");
+        }
+        out.writeCharacters(stringBuilder.toString());
+        out.writeStartElement(entity.getClass().getSimpleName());
+        writeFields(entity, offset + 1);
+        writeMethods(entity, offset + 1);
+        out.writeCharacters(stringBuilder.toString());
+        out.writeEndElement();
     }
 
     public static void main(String[] args) throws FileNotFoundException,
-            UnsupportedEncodingException, XMLStreamException,
-            IllegalAccessException, NoSuchFieldException {
+            UnsupportedEncodingException,
+            XMLStreamException,
+            IllegalAccessException,
+            NoSuchFieldException {
         List<Object> objects = new ArrayList<>();
         Group group = new Group(6L, 01, Semester.SPRING);
         Student student = new Student("Mark", "Brown", "Kidman",
@@ -101,7 +145,7 @@ public class Serializer {
         Lesson lesson = new Lesson("android course", new Date(123456789L), new Date(1234567890L), "subject", "desc", "A. Pervushov");
         objects.add(student);
         objects.add(lesson);
-        File file = new File("students.xml");
+        File file = new File("./src/utilities/students.xml");
         Serializer serializer = new Serializer(file);
         serializer.serialize(objects);
     }
