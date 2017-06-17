@@ -1,6 +1,8 @@
 package examples;
 
-import appcore.Student;
+import entities.Group;
+import entities.Semester;
+import entities.Student;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -13,7 +15,8 @@ import java.util.Date;
  */
 public class ReflectionExample {
     public static void main(String[] args) {
-        Student student = new Student("Mark", "Brown", "Kidman", new Date(1994, 01, 01), 6L);
+        Group group = new Group(6L, 01, Semester.SPRING);
+        Student student = new Student("Mark", "Brown", "Kidman", new Date(1994, 01, 01), 6L, group);
         Class studentClass = student.getClass();
         for (Field field : studentClass.getDeclaredFields()){
             System.out.println(field.getName() + " " + field.getType());
