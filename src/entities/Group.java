@@ -8,20 +8,20 @@ import java.util.List;
  * Created by davlet on 6/8/17.
  */
 public class Group extends Entity implements Serializable {
-    private Long groupNumber;
+    private Long Id;
     private Integer courseNumber;
     private transient List<Student> studentList;
     private transient Semester semester;
 
-    public Group(Long groupNumber, Integer courseNumber, Semester semester) {
-        this.groupNumber = groupNumber;
+    public Group(Long Id, Integer courseNumber, Semester semester) {
+        this.Id = Id;
         this.courseNumber = courseNumber;
         this.semester = semester;
         this.studentList = new ArrayList<>();
     }
 
-    public Long getGroupNumber() {
-        return groupNumber;
+    public Long getId() {
+        return Id;
     }
 
     public Integer getCourseNumber() {
@@ -40,8 +40,8 @@ public class Group extends Entity implements Serializable {
         this.semester = semester;
     }
 
-    public void setGroupNumber(Long groupNumber) {
-        this.groupNumber = groupNumber;
+    public void setId(Long id) {
+        this.Id = id;
     }
 
     public List<Student> getStudentList() {
